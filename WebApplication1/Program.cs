@@ -3,12 +3,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+
 builder.Services.AddSwaggerGen();
-builder.Services.AddHttpsRedirection(options =>
-{
-    options.RedirectStatusCode = StatusCodes.Status308PermanentRedirect;
-    options.HttpsPort = 443;
-});
 
 var app = builder.Build();
 
@@ -33,4 +29,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run();
+// Get the port from the environment variable or use a default port (e.g., 5000)
+var port = Environment.GetEnvironmentVariable("PORT") ?? "5000";
+
+app.Run($"http://*:{port}");
